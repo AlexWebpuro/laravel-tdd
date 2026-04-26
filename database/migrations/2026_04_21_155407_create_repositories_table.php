@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users'); // Make de connect between repositories to users.
+            $table->string('url');
+            $table->text('description');
             $table->timestamps();
         });
     }
