@@ -65,6 +65,25 @@ class RepositoryControllerTest extends TestCase
         $this->assertDatabaseHas("repositories", $data);
     }
 
+    public function test_destroy(): void
+    {
+        $repository = Repository::factory()->create();
+
+        $user = User::factory()->create();
+
+        $this
+            ->actingAs($user)
+            ->delete("repositories/$repository->id")
+            ->assertRedirect("repositories");
+
+
+        $this->assertDatabaseMissing("repositories", [
+            'id'            => $repository->id,
+            'url'           => $repository->url,
+            'description'   => $repository->description,
+        ]);
+    }
+
     public function test_validate_store(): void
     {
         $user = User::factory()->create();
